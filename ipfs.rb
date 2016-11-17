@@ -1,3 +1,43 @@
+IPFS_CLIENT = IF
+# IF = IPFS_CLIENT
+
+file = "#{PATH}/documents/document.txt"
+
+# custom_ipfs_location = "..."
+# ipfs = custom_ipfs_location
+
+ipfs = "ipfs" # auto-located by the shell env
+ipfs = "/usr/local/bin/ipfs" # linux default (debian/ubuntu)
+
+def IF.put(file)
+  puts `#{ipfs} put #{file}`
+end
+
+hash = IF.put file
+
+contents = IF.cat hash
+
+# ---------
+
+puts "hash: #{hash}"
+puts contents
+puts "-"*80
+
+# ---------
+
+
+# usage:
+#
+#   ruby ipfs.rb
+#
+
+
+# ------------------------------------------------------------------
+
+
+# instruction (after having ran this file) to publish the ipfs hash on the blockchain using blockchain-pen:
+
+#
 
 # 1- go on BlockchainPen.com
 #
@@ -16,9 +56,3 @@
 
 
 # ---------
-
-path = File.expand_path "../", __FILE__
-
-file = "#{path}/documents/document.txt"
-
-client = IPFS::Client.default
