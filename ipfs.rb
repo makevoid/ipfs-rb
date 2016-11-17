@@ -1,3 +1,5 @@
+require_relative 'env'
+
 IPFS_CLIENT = IF
 # IF = IPFS_CLIENT
 
@@ -6,25 +8,63 @@ file = "#{PATH}/documents/document.txt"
 # custom_ipfs_location = "..."
 # ipfs = custom_ipfs_location
 
-ipfs = "ipfs" # auto-located by the shell env
-ipfs = "/usr/local/bin/ipfs" # linux default (debian/ubuntu)
+IPFS_CMD = "ipfs" # auto-located by the shell env
+# IPFS_CMD = "/usr/local/bin/ipfs" # linux default (debian/ubuntu)
 
-def IF.put(file)
-  puts `#{ipfs} put #{file}`
+module Executable
+  def exe(cmd)
+    puts "executing: '#{cmd}'"
+    out = `#{cmd}`
+    puts out
+    out
+  end
 end
 
-hash = IF.put file
+module IPFSAdd
 
+  include Executable
+
+  def ipfs_add(file)
+    exe "#{IPFS_CMD} add #{file}"
+  end
+
+end
+
+extend IPFSAdd
+
+puts "Adding the file to ipfs:"
+puts "-"*80
+puts "file: #{file}"
+resp = ipfs_add file
+# hash = IF.add file
+
+hash = resp.match /added (\S+)/ # matches the ipfs hash
+
+hash = hash[1] if hash
+
+puts
+puts "Getting the file from ipfs:"
+puts "-"*80
 contents = IF.cat hash
 
 # ---------
 
+# infos (read)
+
 puts "hash: #{hash}"
 puts contents
-puts "-"*80
 
 # ---------
 
+# JSON to publish to the blockchain
+
+puts "\n"
+puts "JSON - publish it via blockchainpen.com"
+puts "-"*80
+
+puts( { ipfs: hash }.to_json )
+
+puts "\n"
 
 # usage:
 #
