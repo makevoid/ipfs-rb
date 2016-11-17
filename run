@@ -1,0 +1,7 @@
+pm2 stop all
+
+ipfs daemon &
+
+sleep 1
+
+ruby ipfs.rb
