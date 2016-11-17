@@ -1,7 +1,6 @@
 pm2 stop all
 
+
+echo "open another terminal tab/window and run:\n\nruby ipfs.rb\n\n"
+
 ipfs daemon &
-
-sleep 1
-
-ruby ipfs.rb
