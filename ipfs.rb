@@ -8,27 +8,8 @@ file = "#{PATH}/documents/document.txt"
 # custom_ipfs_location = "..."
 # ipfs = custom_ipfs_location
 
-IPFS_CMD = "ipfs" # auto-located by the shell env
-# IPFS_CMD = "/usr/local/bin/ipfs" # linux default (debian/ubuntu)
 
-module Executable
-  def exe(cmd)
-    puts "executing: '#{cmd}'"
-    out = `#{cmd}`
-    puts out
-    out
-  end
-end
-
-module IPFSAdd
-
-  include Executable
-
-  def ipfs_add(file)
-    exe "#{IPFS_CMD} add #{file}"
-  end
-
-end
+require_relative 'lib/ipfs_add'
 
 extend IPFSAdd
 
